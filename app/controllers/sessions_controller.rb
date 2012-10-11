@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
     redirect_to root_url, :notice => "Signed out!"
   end
 
-  def login
-    render "login"
+  def new 
   end
 end
