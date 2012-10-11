@@ -9,7 +9,7 @@ describe SessionsController do
         post :create, :provider => auth["provider"]
       end
 
-      it { response.should redirect_to root_url }
+      it { response.should redirect_to rooms_url }
     end
 
     context "with invalid params" do
@@ -19,7 +19,7 @@ describe SessionsController do
         post :create, :provider => auth["provider"]
       end
 
-      it { response.should redirect_to new_session_url }
+      it { response.should redirect_to root_url }
     end
   end
 end

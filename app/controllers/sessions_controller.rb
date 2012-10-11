@@ -4,9 +4,9 @@ class SessionsController < ApplicationController
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
     if user.valid?
       session[:user_id] = user.id
-      redirect_to root_url, :notice => "Signed in!"
+      redirect_to rooms_url, :notice => "Signed in!"
     else
-      redirect_to new_session_url
+      redirect_to root_url, :alert => "Can not Login"
     end 
   end
 
