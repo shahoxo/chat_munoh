@@ -9,7 +9,7 @@ describe User do
 
     context "incorrect params" do
       let!(:auth) { {"provider" => nil, "uid" => "uid00001", "info" => {"name" => "shito"}} }
-      it { expect{ User.create_with_omniauth(auth)}.to change{ User.count }.by(0) }
+      it { expect{ User.create_with_omniauth(auth)}.to_not change{ User.count } }
     end
   end
 end
