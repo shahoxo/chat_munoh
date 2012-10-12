@@ -1,2 +1,5 @@
-%h1 Rooms#index
-%p Find me in app/views/rooms/index.html.haml
+.room-list
+  %table{border: 1}
+    -@rooms.each do |room|
+      %tr
+        %td.room-title=link_to room.title, room_talks_path(room_id: room.to_param)
