@@ -35,3 +35,22 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+shared_context "twitter_login" do
+  before do
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:twitter] = {
+      "provider" => "twitter",
+      "uid" =>  Forgery::Basic.text,
+      "info" => { "name" => Forgery::Basic.text }
+    }
+
+    visit "/auth/twitter"
+  end
+end
+
+shared_context "login_stub" do
+  before do
+    controller.stub(:login_required) { true }
+  end
+end
