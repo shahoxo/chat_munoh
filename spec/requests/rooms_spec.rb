@@ -1,30 +1,24 @@
 require 'spec_helper'
 
 describe "Rooms" do
-
   describe "GET /rooms" do
+    let!(:room) { FactoryGirl.create(:room) }
+    before { visit rooms_path }
+
     context "with login" do
-      before do
-        OmniAuth.config.test_mode = true
-        OmniAuth.config.mock_auth[:twitter] = {
-          "provider" => "twitter",
-          "uid" =>  Forgery::Basic.text,
-          "info" => { "name" => Forgery::Basic.text }
-        }
-
-        visit "/auth/twitter"
-        visit rooms_path
-      end
-
-       it { page.should have_css('div.room-list') }
+      include_context "twitter_login"
+      it { page.should have_css('div.room-list') }
     end
 
     context "without login" do
-      before do
-        visit rooms_path
-      end
+      it { page.current_path.should eq root_path }
+    end
 
-       it { page.current_path.should eq root_path }
+    context "GET /room/:room_id/talks" do
+      include_context "twitter_login"
+
+      before { click_link room.title }
+      it { page.current_path.should eq room_talks_path(room_id: room.to_param) }
     end
   end
 end

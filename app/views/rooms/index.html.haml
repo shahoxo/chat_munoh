@@ -2,4 +2,4 @@
   %table{border: 1}
     -@rooms.each do |room|
       %tr
-        %td.room-title=room.title
+        %td.room-title=link_to room.title, room_talks_path(room_id: room.to_param)

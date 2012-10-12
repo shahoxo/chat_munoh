@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RoomsController do
-  before do
-    controller.stub(:login_required) { true }
-  end
+  include_context "login_stub"
 
   describe "GET 'index'" do
     it "returns http success" do
