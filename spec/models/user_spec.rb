@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe User do
+
+  describe "association" do
+    it { should have_many(:rooms) }
+  end
+
   describe ".create_with_omniauth" do
     context "correct params" do
       let!(:auth) { {"provider" => "twitter", "uid" => "uid00001", "info" => {"name" => "shito"}} }

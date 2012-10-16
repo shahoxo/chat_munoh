@@ -30,6 +30,7 @@ group :development, :test do
   gem 'forgery'
   gem 'pry'
   gem 'pry-rails'
+  gem 'shoulda-matchers'
 end
 
 group :test do
