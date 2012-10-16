@@ -39,6 +39,32 @@ describe RoomsController do
   end
 
   describe "PUT update" do
+    let(:room) { FactoryGirl.create(:room) }
+
+    describe "with valid params" do
+      let(:edit_room) { FactoryGirl.attributes_for(:room, {title: "edited"}) }
+
+      it "updates the requested room" do
+        Room.any_instance.should_receive(:update_attributes).with('these' => 'params')
+        put :update, {id: room.to_param, room: {'these' => 'params'}}
+      end
+
+      it "redirects to the rooms" do
+        put :update, {id: room.to_param, room: edit_room}
+        response.should redirect_to(rooms_url)
+      end
+    end
+
+    describe "with invalid params" do
+      before do
+        Room.any_instance.stub(:update_attributes).and_return(false)
+      end
+
+      it "re-renders the 'edit' template" do
+        put :update, {id:room.to_param, room: {}}
+        response.should render_template("edit")
+      end
+    end
   end
 
   describe "DELETE destroy" do

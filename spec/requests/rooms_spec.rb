@@ -35,11 +35,23 @@ describe "Rooms" do
 
   describe "POST /room/create" do
     include_context "twitter_login"
-
     before do
       visit new_room_path
       fill_in 'room_title', with: room.title
       click_button "新規登録"
+    end
+
+    it { page.current_path.should eq rooms_path }
+  end
+
+  describe "PUT /room/1/edit" do
+    include_context "twitter_login"
+    let(:edit_room) { FactoryGirl.build(:room, {title: "edited"}) }
+
+    before do
+      visit edit_room_path(room)
+      fill_in 'room_title', with: edit_room.title
+      click_button "編集"
     end
 
     it { page.current_path.should eq rooms_path }
