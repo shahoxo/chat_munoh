@@ -65,6 +65,18 @@ describe RoomsController do
         response.should render_template("edit")
       end
     end
+
+    describe do
+      let!(:other_user) { FactoryGirl.create(:user, {uid: 'other_user'}) }
+      let!(:edit_room) { FactoryGirl.attributes_for(:room, {title: "edited"}) }
+
+      before do
+        controller.stub(:login_required) { true }
+        controller.stub(:current_user) { other_user }
+      end
+
+      it { expect { put :update, {id: room.to_param, room: edit_room} }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
   end
 
   describe "DELETE destroy" do

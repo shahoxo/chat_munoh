@@ -3,4 +3,8 @@ class Room < ActiveRecord::Base
   belongs_to :user
 
   validates_presence_of :title
+
+  def owner?(current_user)
+    user.to_param == current_user.to_param
+  end
 end

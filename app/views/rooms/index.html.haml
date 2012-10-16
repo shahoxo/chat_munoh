@@ -3,6 +3,9 @@
     -@rooms.each do |room|
       %tr
         %td.room-title=link_to room.title, room_talks_path(room_id: room.to_param)
-        %td.room-action #{link_to "Edit", edit_room_path(room)} | #{ link_to "Delete", room_path(room), method: :delete, confirm: 'Are you sure?' }
+        -if room.owner?(current_user)
+          %td.room-action #{link_to "Edit", edit_room_path(room)}| #{ link_to "Delete", room_path(room), method: :delete, confirm: 'Are you sure?' }
+        -else
+          %td.room-action Edit | Delete
 .new-room
   =link_to "New", new_room_path
