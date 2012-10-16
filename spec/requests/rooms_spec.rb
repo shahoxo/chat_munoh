@@ -58,4 +58,15 @@ describe "Rooms" do
 
     it { page.current_path.should eq rooms_path }
   end
+
+  describe "DELETE /room/1" do
+    include_context "twitter_login"
+
+    before do
+      visit rooms_path
+      click_link "Delete"
+    end
+
+    it { page.current_path.should eq rooms_path }
+  end
 end

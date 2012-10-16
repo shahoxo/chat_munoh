@@ -39,7 +39,7 @@ describe RoomsController do
   end
 
   describe "PUT update" do
-    let(:room) { FactoryGirl.create(:room) }
+    let!(:room) { FactoryGirl.create(:room) }
 
     describe "with valid params" do
       let(:edit_room) { FactoryGirl.attributes_for(:room, {title: "edited"}) }
@@ -68,5 +68,17 @@ describe RoomsController do
   end
 
   describe "DELETE destroy" do
+    let!(:room) { FactoryGirl.create(:room) }
+
+    it "destroys the requested room" do
+      expect {
+        delete :destroy, {id: room.to_param}
+      }.to change(Room, :count).by(-1)
+    end
+
+    it "redirects to the room list" do
+      delete :destroy, {id: room.to_param}
+      response.should redirect_to(rooms_url)
+    end
   end
 end

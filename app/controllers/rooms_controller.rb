@@ -29,4 +29,11 @@ class RoomsController < ApplicationController
       render :edit
     end
   end
+
+  def destroy
+    @room = current_user.rooms.find(params[:id])
+    @room.destroy
+
+    redirect_to rooms_url
+  end
 end
