@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Rooms" do
-  let!(:room) { FactoryGirl.create(:room) }
+  let!(:rooms) { FactoryGirl.create_list(:room, 10) }
 
   describe "GET /rooms without login" do
     before { visit rooms_path }
@@ -18,27 +18,29 @@ describe "Rooms" do
     end
 
     describe "click link to /rooms/:room_id/talks" do
-      before { click_link room.title }
-      it { page.current_path.should eq room_talks_path(room_id: room.to_param) }
+      before { click_link rooms.first.title }
+      it { page.current_path.should eq room_talks_path(room_id: rooms.first.to_param) }
     end
 
     describe "click link to /rooms/new" do
-      before { click_link "新規作成" }
+      before { click_link "New" }
       it { page.current_path.should eq new_room_path }
     end
 
     describe "click link to /rooms/:id/edit" do
-      before { click_link "編集" }
-      it { page.current_path.should eq edit_room_path(room) }
+      before { click_link "Edit" }
+      it { page.current_path.should eq edit_room_path(rooms.first) }
     end
   end
 
   describe "POST /room/create" do
     include_context "twitter_login"
+    let(:new_room) { FactoryGirl.build(:room, {title: "new"}) }
+
     before do
       visit new_room_path
-      fill_in 'room_title', with: room.title
-      click_button "新規登録"
+      fill_in 'room_title', with: new_room.title
+      click_button "Create Room"
     end
 
     it { page.current_path.should eq rooms_path }
@@ -49,9 +51,9 @@ describe "Rooms" do
     let(:edit_room) { FactoryGirl.build(:room, {title: "edited"}) }
 
     before do
-      visit edit_room_path(room)
+      visit edit_room_path(rooms.first)
       fill_in 'room_title', with: edit_room.title
-      click_button "編集"
+      click_button "Update Room"
     end
 
     it { page.current_path.should eq rooms_path }

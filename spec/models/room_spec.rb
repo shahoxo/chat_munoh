@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Room do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "validateions" do
+    it { should validate_presence_of(:title) }
+  end
+
+  describe "association" do
+    it { should belong_to(:user) }
+  end
 end
