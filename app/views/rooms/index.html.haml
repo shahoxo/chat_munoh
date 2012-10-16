@@ -3,5 +3,6 @@
     -@rooms.each do |room|
       %tr
         %td.room-title=link_to room.title, room_talks_path(room_id: room.to_param)
+        %td.room-action=link_to "編集", edit_room_path(room)
 .new-room
   =link_to "新規作成", new_room_path

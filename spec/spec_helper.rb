@@ -50,7 +50,9 @@ shared_context "twitter_login" do
 end
 
 shared_context "login_stub" do
+  let!(:user) { FactoryGirl.create(:user) }
   before do
     controller.stub(:login_required) { true }
+    controller.stub(:current_user) { user }
   end
 end
