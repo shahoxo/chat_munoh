@@ -1,7 +1,7 @@
 class Room < ActiveRecord::Base
   attr_accessible :title, :user_id
   belongs_to :user
-
+  has_many :talks
   validates_presence_of :title
 
   def owner?(current_user)

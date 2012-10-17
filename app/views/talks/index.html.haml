@@ -1,2 +1,5 @@
-%h1 Talks#index
-%p Find me in app/views/talks/index.html.haml
+.talk-list
+  -@talks.each do |talk|
+    %span.talk-user-name=talk.user.name 
+    %span.talk-log=talk.log
+    %br
