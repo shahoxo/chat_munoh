@@ -2,6 +2,7 @@
   -@talks.each do |talk|
     %span.talk-user-name=talk.user.name 
     %span.talk-log=talk.log
+    %span.talk-action=link_to "x", room_talk_path(talk, room_id: params[:room_id]), method: :delete
     %br
 .send-talk
   =form_for @new_talk, url: {action: :create} do |f|

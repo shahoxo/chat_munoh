@@ -37,4 +37,18 @@ describe TalksController do
       end
     end
   end
+
+  describe "DELETE destroy" do
+    let!(:talk) { FactoryGirl.create(:talk) }
+    
+    it "destroys the requested talk" do
+      binding.pry
+      expect{ delete :destroy, {room_id: room.to_param, id: talk.to_param} }.to change(Talk, :count).by(-1) 
+    end
+
+    it "redirects to the talk list" do
+      delete :destroy, {room_id: room.to_param, id: room.to_param}
+      response.should redirect_to(room_talks_url room_id: room.to_param)
+    end
+  end
 end

@@ -12,4 +12,11 @@ class TalksController < ApplicationController
       redirect_to room_talks_url
     end
   end
+  
+  def destroy
+    @talk = current_user.talks.find_by_id_and_room_id(params[:id], params[:room_id])
+    @talk.destroy
+
+    redirect_to room_talks_url
+  end
 end
