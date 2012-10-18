@@ -3,3 +3,12 @@
     %span.talk-user-name=talk.user.name 
     %span.talk-log=talk.log
     %br
+.send-talk
+  =form_for @new_talk, url: {action: :create} do |f|
+    =render partial: 'shared/errors', locals: {model: @new_talk}
+    =f.hidden_field :room_id
+    .field
+      =f.label :log
+      =f.text_field :log
+    .actions
+      =f.submit nil
