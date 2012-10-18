@@ -65,7 +65,7 @@ describe RoomsController do
       end
     end
 
-    describe do
+    describe "with other user" do
       let!(:other_user) { FactoryGirl.create(:user, {uid: 'other_user'}) }
       let!(:edit_room) { FactoryGirl.attributes_for(:room, {title: "edited"}) }
 
