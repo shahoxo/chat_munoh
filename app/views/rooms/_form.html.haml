@@ -1,0 +1,7 @@
+=form_for(room) do |f|
+  = render partial: 'shared/errors', locals: {model: room}
+  .field
+    =f.label :title
+    =f.text_field :title
+  .actions
+    =f.submit nil
