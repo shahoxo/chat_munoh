@@ -4,4 +4,8 @@ class Talk < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :room_id
   validates_presence_of :user_id
+
+  def owner?(current_user)
+    user.to_param == current_user.to_param
+  end
 end

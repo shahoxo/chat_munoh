@@ -2,7 +2,8 @@
   -@talks.each do |talk|
     %span.talk-user-name=talk.user.name 
     %span.talk-log=talk.log
-    %span.talk-action=link_to "x", room_talk_path(talk, room_id: params[:room_id]), method: :delete
+    binding.pry
+    %span.talk-action=link_to_if(talk.owner?(current_user), "x", room_talk_path(talk, room_id: params[:room_id]), method: :delete){}
     %br
 .send-talk
   =form_for @new_talk, url: {action: :create} do |f|
@@ -13,3 +14,5 @@
       =f.text_field :log
     .actions
       =f.submit nil
+.back-to-room-list
+  =link_to "Room List", rooms_path
