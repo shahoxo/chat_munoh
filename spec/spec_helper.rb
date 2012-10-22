@@ -37,12 +37,13 @@ RSpec.configure do |config|
 end
 
 shared_context "twitter_login" do
+  let!(:user) { FactoryGirl.create(:user) }
   before do
     OmniAuth.config.test_mode = true
-    OmniAuth.config.mock_auth[:twitter] = {
-      "provider" => "twitter",
-      "uid" =>  Forgery::Basic.text,
-      "info" => { "name" => Forgery::Basic.text }
+    OmniAuth.config.mock_auth[user.provider.to_sym] = {
+      "provider" => user.provider,
+      "uid" => user.uid, 
+      "info" => { "name" => user.name }
     }
 
     visit "/auth/twitter"

@@ -5,7 +5,6 @@ describe RoomsController do
 
   describe "POST create" do
     let(:room) { FactoryGirl.attributes_for(:room, user_id: user.to_param) }
-
     describe "with valid params" do
       it "creates a new Rooms" do
         expect{post :create, {room: room}}.to change(Room, :count).by(1)
@@ -66,7 +65,7 @@ describe RoomsController do
       end
     end
 
-    describe do
+    describe "with other user" do
       let!(:other_user) { FactoryGirl.create(:user, {uid: 'other_user'}) }
       let!(:edit_room) { FactoryGirl.attributes_for(:room, {title: "edited"}) }
 
