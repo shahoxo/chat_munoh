@@ -46,7 +46,7 @@ describe TalksController do
     end
 
     it "redirects to the talk list" do
-      delete :destroy, {room_id: room.to_param, id: room.to_param}
+      delete :destroy, {room_id: room.to_param, id: talk.to_param}
       response.should redirect_to(room_talks_url room_id: room.to_param)
     end
   end

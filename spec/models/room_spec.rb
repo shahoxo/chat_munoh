@@ -6,7 +6,7 @@ describe Room do
   end
 
   describe "association" do
-    it { should belong_to(:user) }
+    it { should belong_to(:owner) }
   end
 
   describe "#owner?" do
