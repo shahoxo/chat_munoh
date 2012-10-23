@@ -31,6 +31,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'shoulda-matchers'
+  gem 'spork', '~> 1.0rc'
 end
 
 group :test do

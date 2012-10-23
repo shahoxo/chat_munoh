@@ -1,2 +1,22 @@
-%h1 Talks#index
-%p Find me in app/views/talks/index.html.haml
+.talk-list
+  -@talks.each do |talk|
+    %span.talk-user-name= talk.user.name 
+    %span.talk-log= talk.log
+    %span.talk-action= link_to_if(talk.owner?(current_user), "x", 
+      room_talk_path(talk, room_id: params[:room_id]), method: :delete, confirm: "Are you sure?"){}
+    %br
+.active-user-list{style: "float: right;"}
+  -@active_users.each do |user|
+    %span.user-name= user.name
+    %br
+.send-talk
+  = form_for @new_talk, url: {action: :create} do |f|
+    = render partial: 'shared/errors', locals: {model: @new_talk}
+    = f.hidden_field :room_id
+    .field
+      = f.label :log
+      = f.text_field :log
+    .actions
+      = f.submit nil
+.back-to-room-list
+  = link_to "Room List", rooms_path
