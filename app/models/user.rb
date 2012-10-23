@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name
 
   attr_accessible :name, :provider, :uid
+
   has_many :rooms
   has_many :talks
 

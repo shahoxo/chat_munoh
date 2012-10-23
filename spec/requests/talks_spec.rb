@@ -9,9 +9,10 @@ describe "Talks" do
     let!(:talk) { FactoryGirl.build(:talk) }
     before { visit room_talks_path(room_id: room.to_param) }
 
-    describe "have css, talk-list, send-talk" do
+    describe "have css, talk-list, send-talk, active-user-list" do
       it { page.should have_css('div.talk-list') }
       it { page.should have_css('div.send-talk') }
+      it { page.should have_css('div.active-user-list') }
     end
 
     describe "have a room-list link" do

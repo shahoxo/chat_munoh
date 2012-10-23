@@ -5,6 +5,10 @@
     %span.talk-action= link_to_if(talk.owner?(current_user), "x", 
       room_talk_path(talk, room_id: params[:room_id]), method: :delete, confirm: "Are you sure?"){}
     %br
+.active-user-list{style: "float: right;"}
+  -@active_users.each do |user|
+    %span.user-name= user.name
+    %br
 .send-talk
   = form_for @new_talk, url: {action: :create} do |f|
     = render partial: 'shared/errors', locals: {model: @new_talk}

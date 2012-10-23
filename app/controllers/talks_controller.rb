@@ -2,6 +2,7 @@ class TalksController < ApplicationController
   def index
     @talks = Talk.where(room_id: params[:room_id])
     @new_talk = current_user.talks.build(room_id: params[:room_id])
+    @active_users = Room.find(params[:room_id]).active_users
   end
 
   def create

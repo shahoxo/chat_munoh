@@ -7,6 +7,7 @@ describe Room do
 
   describe "association" do
     it { should belong_to(:owner) }
+    it { should have_many(:talks) }
   end
 
   describe "#owner?" do
@@ -22,5 +23,15 @@ describe Room do
       let(:room) { FactoryGirl.create(:room, user_id: user.to_param) }
       it { room.owner?(current_user).should be_false }
     end
+  end
+
+  describe "#active_users" do
+    let(:room) { FactoryGirl.create(:room) }
+    let!(:active_user) { FactoryGirl.create(:user) }
+    let!(:passive_user) { FactoryGirl.create(:user) }
+    let!(:active_talk) { FactoryGirl.create(:talk, user_id: active_user.to_param, created_at: 3.minutes.ago) }
+    let!(:passive_talk) { FactoryGirl.create(:talk, user_id: passive_user.to_param, created_at: 6.years.ago) }
+    it { room.active_users.should include active_user }
+    it { room.active_users.should_not include passive_user }
   end
 end
