@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :munoh do
-    name ""
-    twitter_name "MyString"
+    name Forgery::Basic.text
+    twitter_name Forgery::Basic.text
   end
 end
