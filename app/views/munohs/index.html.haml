@@ -1,2 +1,9 @@
-%h1 Munohs#index
-%p Find me in app/views/munohs/index.html.haml
+.munoh-list
+  %table{border: 1}
+    -@munohs.each do |munoh|
+      %tr
+        %td.munoh-name= link_to munoh.name, munoh_path(munoh)
+        %td.munoh-action #{link_to  "Edit", edit_munoh_path(munoh)} | | 
+          #{ link_to "Delete", munoh_path(munoh), method: :delete, confirm: 'Are you sure?' } | 
+.new-munoh
+  =link_to "New", new_munoh_path

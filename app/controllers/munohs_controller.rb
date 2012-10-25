@@ -4,7 +4,7 @@ class MunohsController < ApplicationController
   end
 
   def new
-    @munoh = Munoh.build
+    @munoh = Munoh.new
   end
 
   def create
@@ -18,6 +18,10 @@ class MunohsController < ApplicationController
 
   def edit
     @munoh = Munoh.find(params[:id])
+  end
+
+  def show
+    
   end
 
   def update
