@@ -1,4 +1,6 @@
 class MunohsController < ApplicationController
+  before_filter :find_munoh, only: [:edit, :update, :destroy]
+
   def index
     @munohs = Munoh.all
   end
@@ -17,11 +19,9 @@ class MunohsController < ApplicationController
   end
 
   def edit
-    @munoh = Munoh.find(params[:id])
   end
 
   def update
-    @munoh = Munoh.find(params[:id])
     if @munoh.update_attributes(params[:munoh])
       redirect_to munohs_url
     else
@@ -30,9 +30,12 @@ class MunohsController < ApplicationController
   end
 
   def destroy
-    @munoh = Munoh.find(params[:id])
     @munoh.destroy
-
     redirect_to munohs_url
   end
+
+  private
+  def find_munoh
+    @munoh = Munoh.find(params[:id])
+  end  
 end
