@@ -3,5 +3,8 @@
   .field
     =f.label :title
     =f.text_field :title
+  .field
+    =f.label :munoh_id
+    =f.select :munoh_id, select_munoh_ids, prompt: "選択してください"
   .actions
     =f.submit nil

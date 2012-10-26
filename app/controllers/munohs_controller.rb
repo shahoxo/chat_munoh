@@ -20,10 +20,6 @@ class MunohsController < ApplicationController
     @munoh = Munoh.find(params[:id])
   end
 
-  def show
-    
-  end
-
   def update
     @munoh = Munoh.find(params[:id])
     if @munoh.update_attributes(params[:munoh])
