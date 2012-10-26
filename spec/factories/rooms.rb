@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :room do
     title Forgery::Basic.text
     user_id 1
+    munoh_id 1
   end
 end

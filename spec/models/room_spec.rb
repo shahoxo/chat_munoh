@@ -8,6 +8,7 @@ describe Room do
   describe "association" do
     it { should belong_to(:owner) }
     it { should have_many(:talks) }
+    it { should belong_to(:munoh) }
   end
 
   describe "#owner?" do
