@@ -1,0 +1,10 @@
+=form_for [munoh, phrase] do |f|
+  = render partial: 'shared/errors', locals: {model: phrase}
+  .field
+    =f.label :keyword
+    =f.text_field :keyword
+  .field
+    =f.label :reply
+    =f.text_field :reply
+  .actions
+    =f.submit nil
