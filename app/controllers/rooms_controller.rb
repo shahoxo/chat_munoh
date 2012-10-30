@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_filter :find_room, only: [:edit, :update, :destroy]
+  before_filter :list_munohs, only: [:new, :edit]
 
   def index
     @rooms = Room.all
@@ -11,7 +12,6 @@ class RoomsController < ApplicationController
 
   def create
     @room = current_user.rooms.build(params[:room])
-
     if @room.save
       redirect_to rooms_url
     else
@@ -38,5 +38,9 @@ class RoomsController < ApplicationController
   private
   def find_room
     @room = current_user.rooms.find(params[:id])
+  end
+
+  def list_munohs
+    @munohs = Munoh.all
   end
 end
