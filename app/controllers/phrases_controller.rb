@@ -1,5 +1,6 @@
 class PhrasesController < ApplicationController
   before_filter :find_munoh
+  before_filter :find_phrase, only: [:update, :destroy]
 
   def index
     @phrases = @munoh.phrases
@@ -23,7 +24,7 @@ class PhrasesController < ApplicationController
   end
 
   def update
-    @phrase = @munoh.phrases.find(params[:id])
+    #@phrase = @munoh.phrases.find(params[:id])
     if @phrase.update_attributes(params[:phrase])
       redirect_to munoh_phrases_url
     else
@@ -32,8 +33,8 @@ class PhrasesController < ApplicationController
   end
 
   def destroy
-    phrase = @munoh.phrases.find(params[:id])
-    phrase.destroy
+    #phrase = @munoh.phrases.find(params[:id])
+    @phrase.destroy
     redirect_to munoh_phrases_url
   end
 
@@ -44,5 +45,9 @@ class PhrasesController < ApplicationController
       redirect_to munohs_url
       return false
     end
+  end
+
+  def find_phrase
+    @phrase = @munoh.phrases.find(params[:id])
   end
 end
