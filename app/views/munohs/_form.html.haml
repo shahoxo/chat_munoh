@@ -1,0 +1,10 @@
+=form_for(munoh) do |f|
+  = render partial: 'shared/errors', locals: {model: munoh}
+  .field
+    =f.label :name
+    =f.text_field :name
+  .field
+    =f.label :twitter_name
+    =f.text_field :twitter_name
+  .actions
+    =f.submit nil
