@@ -25,6 +25,11 @@ describe "munohs" do
       before { click_link "Edit" }
       it { page.current_path.should eq edit_munoh_path(munohs.first) }
     end
+
+    describe "click link to /munohs/:munoh_id/phrases" do
+      before { click_link "Phrases" }
+      it { page.current_path.should eq munoh_phrases_path(munohs.first) }
+    end
   end
 
   describe "POST /munoh/create" do
