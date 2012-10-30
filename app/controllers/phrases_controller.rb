@@ -24,7 +24,6 @@ class PhrasesController < ApplicationController
   end
 
   def update
-    #@phrase = @munoh.phrases.find(params[:id])
     if @phrase.update_attributes(params[:phrase])
       redirect_to munoh_phrases_url
     else
@@ -33,7 +32,6 @@ class PhrasesController < ApplicationController
   end
 
   def destroy
-    #phrase = @munoh.phrases.find(params[:id])
     @phrase.destroy
     redirect_to munoh_phrases_url
   end
