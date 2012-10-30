@@ -1,10 +1,11 @@
 class Room < ActiveRecord::Base
-  attr_accessible :title, :user_id
+  attr_accessible :title, :user_id, :munoh_id
 
   belongs_to :owner, class_name: "User", foreign_key: :user_id
   has_many :talks
   has_many :active_users, source: :user, through: :talks, 
     conditions: proc { ['talks.created_at >= ?', 5.minutes.ago]} 
+  belongs_to :munoh
 
   validates_presence_of :title
 

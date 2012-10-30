@@ -1,4 +1,5 @@
 ChatMunoh::Application.routes.draw do
+  resources :munohs
   resources :rooms do
     resources :talks
   end

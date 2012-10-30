@@ -35,11 +35,13 @@ describe "Rooms" do
 
   describe "POST /room/create" do
     include_context "twitter_login"
-    let(:new_room) { FactoryGirl.build(:room, {title: "new"}) }
+    let(:new_room) { FactoryGirl.build(:room, {title: "new", munoh_id: nil}) }
+    let!(:munoh) { FactoryGirl.create(:munoh) }
 
     before do
       visit new_room_path
       fill_in 'room_title', with: new_room.title
+      select munoh.name, from: "room_munoh_id"
       click_button "Create Room"
     end
 
@@ -49,10 +51,12 @@ describe "Rooms" do
   describe "PUT /room/1/edit" do
     include_context "twitter_login"
     let(:edit_room) { FactoryGirl.build(:room, {title: "edited"}) }
+    let!(:munoh) { FactoryGirl.create(:munoh) }
 
     before do
       visit edit_room_path(rooms.first)
       fill_in 'room_title', with: edit_room.title
+      select munoh.name, from: "room_munoh_id"
       click_button "Update Room"
     end
 
