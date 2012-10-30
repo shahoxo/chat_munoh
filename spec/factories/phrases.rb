@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :phrase do
-    keyword "MyString"
-    reply "MyText"
+    keyword Forgery::Basic.text
+    reply Forgery::Basic.text
+    munoh_id 1
   end
 end
