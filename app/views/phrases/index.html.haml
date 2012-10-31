@@ -1,0 +1,17 @@
+.phrase-list
+  %table
+    %tr
+      %td.phrase-keyword-title Keyword
+      %td.phrase-reply-title Reply
+      %td.phrase-edit-title
+      %td.phrase-delete-title
+    -@phrases.each do |phrase|
+      %tr
+        %td.phrase-keyword= phrase.keyword
+        %td.phrase-reply= phrase.reply
+        %td.phrase-edit= link_to "edit", edit_munoh_phrase_path(munoh_id: phrase.munoh_id, id: phrase.to_param)
+        %td.phrase-delete= link_to "delete", munoh_phrase_path(munoh_id: phrase.munoh_id, id: phrase.to_param), method: :delete
+.new-phrase
+  = link_to "new", new_munoh_phrase_path(munoh_id: @munoh.id)
+.back-to-munoh-list
+  = link_to "Munoh List", munohs_path
