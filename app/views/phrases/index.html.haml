@@ -1,10 +1,8 @@
 .phrase-list
-  %table
+  %table{border: 1}
     %tr
-      %td.phrase-keyword-title Keyword
-      %td.phrase-reply-title Reply
-      %td.phrase-edit-title
-      %td.phrase-delete-title
+      %th.phrase-keyword-title Keyword
+      %th.phrase-reply-title Reply
     -@phrases.each do |phrase|
       %tr
         %td.phrase-keyword= phrase.keyword
