@@ -15,3 +15,6 @@ log/*.log
 tmp
 *.sw[a-z]
 .idea/*
+
+# Ignore schema with local migration version
+db/schema.rb
