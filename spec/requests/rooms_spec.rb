@@ -2,6 +2,8 @@
 require 'spec_helper'
 
 describe "Rooms" do
+  include_context "request_to_twitter_stub"
+
   let!(:rooms) { FactoryGirl.create_list(:room, 10) }
 
   describe "GET /rooms without login" do
@@ -35,6 +37,7 @@ describe "Rooms" do
 
   describe "POST /room/create" do
     include_context "twitter_login"
+
     let(:new_room) { FactoryGirl.build(:room, {title: "new", munoh_id: nil}) }
     let!(:munoh) { FactoryGirl.create(:munoh) }
 

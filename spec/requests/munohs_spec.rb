@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe "munohs" do
-  let!(:munohs) { FactoryGirl.create_list(:munoh, 3) }
+  include_context "request_to_twitter_stub"
+
+  let!(:munohs) { FactoryGirl.create_list(:munoh, 1) }
 
   describe "GET /munohs without login" do
     before { visit munohs_path }

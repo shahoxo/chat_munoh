@@ -106,3 +106,9 @@ shared_context "login_stub" do
     controller.stub(:current_user) { user }
   end
 end
+
+shared_context "request_to_twitter_stub" do
+  before do
+    Munoh.any_instance.stub(:try_to_get_valid_response).and_return(true)
+  end
+end
