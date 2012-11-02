@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe PhrasesController do
   include_context "login_stub"
+  include_context "request_to_twitter_stub"
+
   let!(:munoh) { FactoryGirl.create(:munoh)}
   let!(:phrase) { FactoryGirl.create(:phrase, munoh: munoh)}
 
