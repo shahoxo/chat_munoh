@@ -27,57 +27,57 @@ describe Munoh do
     end
 
     let!(:munoh) { FactoryGirl.create(:munoh) }
+    named_let(:new_twitter_name) { munoh.twitter_name = "still_unsave_twitter_name" }
+    named_let(:old_twitter_name) { Munoh.find(munoh).twitter_name }
 
-    context "with too many requests exception" do
-      before do
-        munoh.twitter_name = "still_unsave_twitter_name"
-        Munoh.any_instance.stub(:set_phrases).and_raise(Twitter::Error::TooManyRequests)
-        munoh.try_to_get_valid_response
+    context "with exception" do
+
+      subject { munoh.twitter_name }
+
+      context "too many requests" do
+        before do
+          munoh.twitter_name = "still_unsave_twitter_name"
+          Munoh.any_instance.stub(:retrieve_phrases_on_timeline).and_raise(Twitter::Error::TooManyRequests)
+          munoh.try_to_get_valid_response
+        end
+        it { should eq old_twitter_name }
       end
 
-      it { munoh.twitter_name.should eq Munoh.find(munoh).twitter_name }
-    end
+      context "not found" do
+        before do
+          munoh.twitter_name = "still_unsave_twitter_name"
+          Munoh.any_instance.stub(:retrieve_phrases_on_timeline).and_raise(Twitter::Error::NotFound)
+          munoh.try_to_get_valid_response
+        end
 
-    context "with not found exception" do
-      before do
-        munoh.twitter_name = "still_unsave_twitter_name"
-        Munoh.any_instance.stub(:set_phrases).and_raise(Twitter::Error::NotFound)
-        munoh.try_to_get_valid_response
+        it { should eq old_twitter_name }
       end
 
-      it { munoh.twitter_name.should eq Munoh.find(munoh).twitter_name }
-    end
+      context "forbidden" do
+        before do
+          munoh.twitter_name = "still_unsave_twitter_name"
+          Munoh.any_instance.stub(:retrieve_phrases_on_timeline).and_raise(Twitter::Error::Forbidden)
+          munoh.try_to_get_valid_response
+        end
 
-    context "with forbidden exception" do
-      before do
-        munoh.twitter_name = "still_unsave_twitter_name"
-        Munoh.any_instance.stub(:set_phrases).and_raise(Twitter::Error::Forbidden)
-        munoh.try_to_get_valid_response
+        it { should eq old_twitter_name }
       end
-
-      it { munoh.twitter_name.should eq Munoh.find(munoh).twitter_name }
     end
 
     context "without exception" do
       before do
-        Munoh.any_instance.should_receive(:set_phrases)
+        Munoh.any_instance.should_receive(:valid_twitter_name?).and_return(true)
+        Munoh.any_instance.should_receive(:retrieve_phrases_on_timeline).and_return(true)
       end
 
-      it {munoh.try_to_get_valid_response}
+      it "should receive method 'retrieve_phrases_on_timeline'" do
+        munoh.try_to_get_valid_response
+      end
     end
 
   end
 
-  describe "#twitter_client" do
-    include_context "request_to_twitter_stub"
-
-    let(:munoh) { FactoryGirl.create(:munoh) }
-
-    subject { munoh.twitter_client }
-    it { should be_kind_of(Twitter::Client) }
-  end
-
-  describe "#set_phrases" do
+  describe "#retrieve_phrases_on_timeline" do
     include_context "request_to_twitter_stub"
 
     let!(:munoh) { FactoryGirl.create(:munoh) }
@@ -87,13 +87,17 @@ describe Munoh do
       Twitter::Client.any_instance.stub(:user_timeline).and_return([tweet])
       Munoh.any_instance.stub(:find_source_tweet).and_return("first tweet")
       Munoh.any_instance.stub(:find_source_owner).and_return("tweet owner")
-      munoh.set_phrases
+      munoh.retrieve_phrases_on_timeline
     end
 
-    it { munoh.set_phrases }
-    it { munoh.phrases.should have(1).items }
-    it { munoh.phrases.first.keyword.should eq "first tweet" }
-    it { munoh.phrases.first.reply.should eq "tweet!" }
+    subject { munoh.phrases }
+    it { should have(1).items }
+    it "should have keyword 'first tweet' on first object" do
+      subject.first.keyword.should eq "first tweet"
+    end
+    it "should have reply 'tweet!' on first object" do
+      subject.first.reply.should eq "tweet!"
+    end
   end
 
   describe "#find_source_tweet" do
@@ -101,21 +105,26 @@ describe Munoh do
 
     let!(:munoh) { FactoryGirl.create(:munoh) }
     let!(:tweet) { Twitter::Tweet.new(id: 1, in_reply_to_status_id: 123456, text: "tweet!") }
+    named_let(:extracted_tweet) { tweet.text }
 
-    context "with not found exception" do
-      before do
-        Twitter::Client.any_instance.stub(:status).and_raise(Twitter::Error::NotFound)
+    subject{ munoh.find_source_tweet(tweet.in_reply_to_status_id) }
+
+    context "with exception" do
+      context "not found" do
+        before do
+          Twitter::Client.any_instance.stub(:status).and_raise(Twitter::Error::NotFound)
+        end
+
+        it { should be_nil }
       end
 
-      it { munoh.find_source_tweet(tweet.in_reply_to_status_id).should be_nil }
-    end
+      context "forbidden" do
+        before do
+          Twitter::Client.any_instance.stub(:status).and_raise(Twitter::Error::Forbidden)
+        end
 
-    context "with forbidden exception" do
-      before do
-        Twitter::Client.any_instance.stub(:status).and_raise(Twitter::Error::Forbidden)
+        it { should be_nil }
       end
-
-      it { munoh.find_source_tweet(tweet.in_reply_to_status_id).should be_nil }
     end
 
     context "without exception" do
@@ -123,38 +132,41 @@ describe Munoh do
         Twitter::Client.any_instance.stub(:status).and_return(tweet)
       end
 
-      it { munoh.find_source_tweet(tweet.in_reply_to_status_id).should eq tweet.text }
+      it { should eq extracted_tweet }
     end
   end
 
   describe "#find_source_owner" do
     let!(:munoh) { FactoryGirl.build(:munoh) }
     let!(:twitter_user) { Twitter::User.new(id: 12345, name: "owner") }
+    named_let(:extracted_user_name) { twitter_user.name }
 
-    context "with not found exception" do
-      before do
-        Twitter::Client.any_instance.stub(:user).and_raise(Twitter::Error::NotFound)
+    subject{ munoh.find_source_owner(twitter_user.id) }
+
+    context "with exception" do
+      context "not found" do
+        before do
+          Twitter::Client.any_instance.stub(:user).and_raise(Twitter::Error::NotFound)
+        end
+
+        it { should be_nil }
       end
 
-      it { munoh.find_source_owner(twitter_user.id).should be_nil }
-    end
+      context "forbidden" do
+        before do
+          Twitter::Client.any_instance.stub(:user).and_raise(Twitter::Error::Forbidden)
+        end
 
-    context "with forbidden exception" do
-      before do
-        Twitter::Client.any_instance.stub(:user).and_raise(Twitter::Error::Forbidden)
+        it { should be_nil }
       end
-
-      it { munoh.find_source_owner(twitter_user.id).should be_nil }
     end
-
     context "without exception" do
       before do
         Twitter::Client.any_instance.stub(:user).and_return(twitter_user)
       end
 
-      it { munoh.find_source_owner(twitter_user.id).should eq twitter_user.name }
+      it { should eq extracted_user_name }
     end
-
   end
 
   describe "#format_reply" do
