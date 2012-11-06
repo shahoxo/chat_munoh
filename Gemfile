@@ -37,6 +37,7 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'named_let', '~> 0.1.3'
 end
 
 
