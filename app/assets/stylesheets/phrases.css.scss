@@ -1,3 +1,22 @@
 // Place all the styles related to the phrases controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.phrases {
+  width: 800px;
+  border: 1px #E3E3E3 solid;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  th, td {
+    padding: 5px;
+    border: 1px #E3E3E3 solid;
+    border-width: 0 0 1px 1px;
+  }
+
+  th {
+    background: #F5F5F5;
+    font-weight: bold;
+    line-height: 120%;
+    text-align: center;
+  }
+}

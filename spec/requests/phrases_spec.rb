@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe "Phrases" do
   include_context "twitter_login"
+  include_context "request_to_twitter_stub"
+
   let!(:munoh) { FactoryGirl.create(:munoh) }
   let!(:phrases) { FactoryGirl.create_list(:phrase, 3, munoh: munoh)}
   
