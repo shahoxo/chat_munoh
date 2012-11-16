@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe MunohsController do
   include_context "login_stub"
+  include_context "request_to_twitter_stub"
 
   describe "POST 'create'" do
     let(:munoh) { FactoryGirl.attributes_for(:munoh) }

@@ -11,7 +11,7 @@ gem 'kaminari'
 gem 'haml'
 gem 'haml-rails'
 gem 'omniauth-twitter'
-
+gem 'twitter'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -37,6 +37,7 @@ end
 group :test do
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'named_let', '~> 0.1.3'
 end
 
 
